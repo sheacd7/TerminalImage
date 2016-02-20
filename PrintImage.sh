@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# test for line endings
 #"\\033[38;2;r;g;b;48;2;r;g;bm\\u2580"
 
 # ImageMagick pixel enumeration: 286,280,255,srgb
