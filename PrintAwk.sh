@@ -10,13 +10,14 @@ if [[ ! -f "${txtfile}" ]]; then
 fi
 
 printf '%s\n' "Loading image to buffer"
-# mapfile -s 1 -t pixels < 
-#   <(cut -f 2 -d ' ' "${txtfile}" | \
-#     tr -d '()' | tr ',' ';')
+old_IFS=$IFS
 IFS=':,'; read comment cols rows max format < <(head -1 "${txtfile}")
+IFS=${old_IFS}
 printf '%s:%d, %s:%d\n' "Cols" "${cols}" "Rows" "${rows}" 
 
-#printf '%s\n' "${pixels[@]}" | awk -v c="$cols" '
+# reformat text to interleaved odd/even rows
+# r1c1, r1c2, r1c3, r2c1, r2c2, r2c3
+# r1c1, r2c1, r1c2, r2c2, r1c3, r2c3
 tail -"$((rows*cols))" "${txtfile}" | cut -f 2 -d ' ' | tr -d '()' | tr ',' ';' | \
 awk -v c="$cols" '
 {
@@ -38,6 +39,7 @@ END {
   }
 }' > "${outfile}"
 
+# apply terminal codes to pixel rgb values
 mapfile -t img < "${outfile}"
 for row in "${!img[@]}"; do
   printf -v image[$row] '\033[38;2;%s;48;2;%sm\u2580' ${img[$row]}
