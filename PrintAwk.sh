@@ -1,4 +1,10 @@
 #!/bin/bash
+# META =========================================================================
+# Title: TerminalAwk.sh
+# Usage: TerminalAwk.sh
+# Description: Print image in terminal.
+# Author: Colin Shea
+# Created: 2016-02-21
 
 imgfile="$1"
 txtfile="${imgfile%%.*}.txt"
