@@ -13,10 +13,10 @@ mapfile -s 1 -t pixels < <(cut -f 2 -d ' ' "${txtfile}" | tr -d '()' | tr ',' ';
 IFS=':,'; read comment cols rows max format < <(head -1 "${txtfile}")
 printf '%s:%d, %s:%d\n' "Cols" "${cols}" "Rows" "${rows}" 
 
-declare -a image 
+declare -a img
 # print with full block per row
 for ((row=0; row<${rows}; row++)); do
-  printf -v image[$row] "\\033[38;2;%sm\\u2588" "${pixels[@]:$(($row * $cols)):$cols}"
+  printf -v img[$row] "\\033[38;2;%sm\\u2588" "${pixels[@]:$((row*cols)):$cols}"
 done
 
 # print with half-block per row
@@ -34,7 +34,7 @@ done
 #    "${pixels[@]:$(( ($row + 1) * $cols)):$cols}"
 #done
 
-printf '%b\n' "${image[@]}"
+printf '%b\n' "${img[@]}"
 
 # combine alternating runs of length $cols to each row
 #for ((row=0; row<$rows; row++)); do
