@@ -1,17 +1,17 @@
 #!/bin/bash
 # META =========================================================================
-# Title: TerminalImage.sh
-# Usage: TerminalImage.sh
-# Description: Print image in terminal.
+# Title: PrintImage.sh
+# Usage: PrintImage.sh
+# Description: Print image from imagemagick pixel text file in terminal.
 # Author: Colin Shea
 # Created: 2016-02-21
 
 # TODO
 #   skip writing to intermediate txt file for image conversion
-#   preserve border (reset fg/bg to black)
 
 # DONE
-#   command line option for 1 vs 2 rows per line
+#   preserve border (reset fg/bg to black)
+#   command line option for 1 vs 2 rows per line, default to 1
 #   abstract out awk indexing
 #   skip one of two intermediate text files
 #   get rows/cols without modifying IFS
@@ -31,7 +31,7 @@ read -r cols rows max format < <(printf '%s\n' "${header[4]//,/ }")
 printf '%s:%d, %s:%d\n' "Cols" "${cols}" "Rows" "${rows}" 
 
 # command-line arg: rows per line
-rpl=$2
+rpl=${2:-1}
 
 # map indices of pixel stream to cols * lines array
 mapfile -t img < <( \
@@ -76,6 +76,7 @@ case $rpl in
 esac
 
 # print image
-printf '%b\n' "${image[@]}"
+printf '%b\033[0m\n' "${image[@]}"
+#printf '%b\n' "${image[@]}"
 
 
