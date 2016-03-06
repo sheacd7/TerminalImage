@@ -24,7 +24,7 @@ import numpy
 # set input dir and file
 nii_dir=os.path.abspath("D:/Pipeline/MNI")
 nii_file=os.path.join(nii_dir, "MNI152_T1_1mm_brain.nii.gz")
-csv_file=os.path.abspath("C:/Users/sheacd/mni.csv")
+txt_file=os.path.abspath("C:/Users/sheacd/mni.txt")
 
 # load nii as image and header with nibabel
 nii_img=nibabel.load(nii_file)
@@ -49,4 +49,4 @@ nii_flip=numpy.flipud(nii_swap)
 # print header dims
 print dims 
 # convert numpy array nii_data to text
-numpy.savetxt( csv_file, nii_flip[:,:,91], fmt='%4.0f')
+numpy.savetxt( txt_file, nii_flip[:,:,91], fmt='%4.0f')
